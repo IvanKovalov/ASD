@@ -1,0 +1,138 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+int k;
+ typedef struct linked_list {
+ int info;
+ size_t next_p;}
+  l_list;
+  l_list * l_list_init(int item) {
+       l_list *l_p ;
+       l_p = malloc(sizeof(struct linked_list));
+       *l_p = (l_list){
+           .info = item,
+           .next_p = NULL
+        };
+    printf("ptr=%d info=%d next=%d\n",l_p,l_p->info,l_p->next_p);
+    return l_p;
+   }
+  l_list * add_list(l_list *l_p, int item){
+        struct linked_list *node_p ;
+        node_p = malloc(sizeof(struct linked_list));
+        node_p->info = item;
+        node_p->next_p = l_p;
+        k = item;
+        printf("ptr=%d info=%d next=%d \n",node_p,node_p->info,node_p->next_p);
+        return node_p;
+      }
+  l_list * del_list(l_list *l_p){
+      size_t node_p = l_p->next_p;
+      printf("ptr=%d info=%d next=%d \n",l_p,l_p->info,l_p->next_p);
+      if(!l_p) free(l_p);
+      return node_p;
+     }
+
+ int i = 1;
+ int n;
+ scanf("%d/n", &n);
+ int j, t;
+
+ int counter = 0;
+ int count =1;
+ int list_p = l_list_init(i);
+ int list1_p;
+   for(j = 1; j < n; j++){
+       if(count <= n/2){
+         i = j-j*2;
+           list_p = add_list(list_p, i);
+           count++;
+       }
+       else{
+        i = 0;
+        i = j*2;
+        list_p = add_list(list_p, i);
+       }
+      }
+  l_list * delete_list(l_list *l_p,int item){
+    l_list *previous_p = NULL;
+    l_list *this_p = l_p;
+    size_t node_p = this_p->next_p;
+       while (this_p){
+           if (item == this_p->info){
+              if (this_p == l_p){
+                free(this_p);
+                return node_p;
+                }
+             else {
+                previous_p->next_p = node_p;
+                free(this_p);
+               return l_p;
+              }
+              }
+      previous_p = this_p;
+      this_p = node_p;
+        if(node_p)
+          node_p = this_p->next_p;
+      }
+      return NULL;
+      }
+
+l_list * findplus(l_list *l_p){
+ l_list *this_p = l_p;
+ size_t node_p = this_p->next_p;
+ while (this_p){
+   if (this_p->info > 0)
+    return this_p->info;
+   this_p = node_p;
+   if(node_p)
+    node_p = this_p->next_p;
+}
+return NULL;
+}
+l_list * findminus(l_list *l_p){
+ l_list *this_p = l_p;
+ size_t node_p = this_p->next_p;
+ while (this_p){
+   if (this_p->info < 0)
+    return this_p->info;
+   this_p = node_p;
+   if(node_p)
+    node_p = this_p->next_p;
+}
+return NULL;
+}
+
+
+      int f;
+      int plus;
+      int minus;
+      for(f = 0;f < n;f++){
+        if(counter == 0)
+        {
+            plus = findplus(list_p);
+            list1_p = l_list_init(plus);
+            list_p = delete_list(list_p, plus);
+            counter ++;
+        }
+        else if (counter == 1)
+        {
+            minus = findminus(list_p);
+            list1_p = add_list(list1_p, minus);
+            list_p = delete_list(list_p, minus);
+            counter ++;
+        }
+        else if (counter == 2){
+            plus = findplus(list_p);
+            list1_p = add_list(list1_p, plus);
+            list_p = delete_list(list_p, plus);
+            counter --;
+        }
+
+      }
+
+
+
+
+return 0;
